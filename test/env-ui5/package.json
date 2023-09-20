@@ -1,0 +1,11 @@
+{
+  "name": "test-env-ui5",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "vitest-environment-ui5": "file:../.."
+  }
+}

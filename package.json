@@ -1,0 +1,54 @@
+{
+  "name": "vitest-environment-ui5",
+  "version": "0.0.1",
+  "description": "Vitest testing environment for UI5",
+  "private": false,
+  "author": "Mauricio Lauffer",
+  "license": "MIT",
+  "homepage": "https://github.com/mauriciolauffer/vitest-environment-ui5#readme",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "vitest",
+    "vitest-environment",
+    "testing",
+    "unit-testing",
+    "sap",
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint src test --cache",
+    "test": "cd test/env-ui5 && vitest",
+    "test:ci": "cd test/env-ui5 && vitest run --coverage"
+  },
+  "peerDependencies": {
+    "vitest": "^0.34.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mauriciolauffer/vitest-environment-ui5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mauriciolauffer/vitest-environment-ui5/issues"
+  },
+  "dependencies": {
+    "jsdom": "^22.1.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.3",
+    "@types/node": "^20.6.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2",
+    "@vitest/coverage-v8": "^0.34.4",
+    "eslint": "^8.49.0",
+    "eslint-config-mlauffer-nodejs": "^1.4.2"
+  }
+}

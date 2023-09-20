@@ -1,0 +1,24 @@
+name: test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        persist-credentials: false
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 20
+        cache: npm
+    - run: npm install -g eslint --ignore-scripts
+    - run: npm ci --ignore-scripts
+    - run: npm run lint
+    - run: npm test

@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "module": "ES2022",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "strict": true,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "baseUrl": ".",
+    "rootDir": "src",
+    "checkJs": true,
+    "allowJs": true,
+    "types": ["node", "jsdom"],
+  },
+  "include": [
+    "src"
+, "types/globals.d.ts"  ],
+  "exclude": [
+    "node_modules",
+    "test"
+  ]
+}

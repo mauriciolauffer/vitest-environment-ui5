@@ -1,0 +1,11 @@
+{
+  "name": "test-env-ui5-with-docblock",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "vitest-environment-ui5": "file:../.."
+  }
+}
