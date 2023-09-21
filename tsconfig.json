@@ -12,17 +12,13 @@
     "sourceMap": true,
     "declaration": true,
     "emitDeclarationOnly": false,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "rootDir": "src",
     "checkJs": true,
     "allowJs": true,
     "types": ["node", "jsdom"],
   },
-  "include": [
-    "src"
-, "types/globals.d.ts"  ],
-  "exclude": [
-    "node_modules",
-    "test"
-  ]
+  "include": ["src", "types"],
+  "exclude": ["node_modules", "test"]
 }
