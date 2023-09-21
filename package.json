@@ -26,11 +26,13 @@
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "eslint src test --cache",
+    "lint:ci": "eslint src -f @microsoft/eslint-formatter-sarif -o eslint.sarif",
     "test": "cd test/env-ui5 && vitest",
     "test:ci": "cd test/env-ui5 && vitest run --coverage"
   },
   "peerDependencies": {
-    "vitest": "^0.34.4"
+    "vitest": ">=0.30",
+    "typescript": ">=5"
   },
   "repository": {
     "type": "git",
@@ -49,6 +51,7 @@
     "@typescript-eslint/parser": "^6.7.2",
     "@vitest/coverage-v8": "^0.34.4",
     "eslint": "^8.49.0",
-    "eslint-config-mlauffer-nodejs": "^1.4.2"
+    "eslint-config-mlauffer-nodejs": "^1.4.4",
+    "eslint-plugin-vitest": "^0.3.1"
   }
 }

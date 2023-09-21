@@ -1,7 +1,7 @@
 root: true
 extends:
   - eslint-config-mlauffer-nodejs
-  - plugin:jsdoc/recommended-typescript-error
+  - plugin:jsdoc/recommended-typescript
   - plugin:@typescript-eslint/recommended
 parser: '@typescript-eslint/parser'
 plugins:

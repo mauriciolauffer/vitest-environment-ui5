@@ -1,0 +1,8 @@
+root: false
+extends:
+  - plugin:vitest/recommended
+globals:
+  sap: true
+  window: true
+rules:
+  jsdoc/check-tag-names: off

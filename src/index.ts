@@ -1,13 +1,13 @@
 import type {Environment} from 'vitest';
 import {populateGlobal} from 'vitest/environments';
-import type {JSDOM, DOMWindow, FileOptions} from 'jsdom';
-import type Ui5Options from '../types/globals';
+import {JSDOM} from 'jsdom';
+import type {DOMWindow, FileOptions} from 'jsdom';
 
 /**
- * Build JSDOM from HTML file containing UI5 bootstrap configuration
+ * Get jsdom configuration to build JSDOM from HTML file containing UI5 bootstrap configuration
  */
-async function buildFromFile(JSDOM: any, ui5: Ui5Options): Promise<JSDOM> {
-  const options: FileOptions = {
+function getConfiguration(): FileOptions {
+  return {
     resources: 'usable',
     referrer: 'https://ui5.sap.com/',
     runScripts: 'dangerously',
@@ -17,7 +17,7 @@ async function buildFromFile(JSDOM: any, ui5: Ui5Options): Promise<JSDOM> {
       Object.defineProperty(jsdomWindow, 'matchMedia', {
         writable: true,
         configurable: true,
-        value: (query: any) => ({
+        value: (query: string) => ({
           matches: false,
           media: query,
           onchange: null,
@@ -37,8 +37,6 @@ async function buildFromFile(JSDOM: any, ui5: Ui5Options): Promise<JSDOM> {
       });
     }
   };
-
-  return JSDOM.fromFile(ui5.path, options);
 }
 
 
@@ -62,11 +60,11 @@ function addScriptEvents(window: DOMWindow): void {
 /**
  * Await UI5 to be loaded: onInit event
  */
-async function ui5Loaded(window: DOMWindow): Promise<boolean> {
+async function ui5Ready(window: DOMWindow): Promise<boolean|Error> {
   return new Promise((resolve, reject) => {
     window.onUi5ModulesLoaded = (isLoaded: boolean) => {
       setTimeout(() => {
-        isLoaded ? resolve(true) : reject(false);
+        isLoaded ? resolve(true) : reject(new Error('sap-ui-bootstrap'));
       }, 0);
     };
   });
@@ -79,10 +77,10 @@ export default <Environment>({
   name: 'ui5',
   transformMode: 'web',
   async setup(global, {ui5 = {}}) {
-    const {JSDOM} = await import('jsdom');
-    const dom = await buildFromFile(JSDOM, ui5);
+    // const {JSDOM} = await import('jsdom');
+    const dom = await JSDOM.fromFile(ui5.path, getConfiguration());
     addScriptEvents(dom.window);
-    await ui5Loaded(dom.window);
+    await ui5Ready(dom.window);
     const hrefFile = dom.window.location.href;
     dom.reconfigure({url: 'http://localhost/'}); // Workaround to avoid > SecurityError: localStorage is not available for opaque origins
     const {keys, originals} = populateGlobal(global, dom.window, {bindFunctions: true});
