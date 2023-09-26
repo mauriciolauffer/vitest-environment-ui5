@@ -32,7 +32,8 @@ export default defineConfig({
     environment: "ui5",
     environmentOptions: {
       ui5: {
-        path: 'test/ui5-unit-test.html' // Path to the HTML file containing UI5 bootstrap
+        path: 'test/ui5-unit-test.html', // Path to the HTML file containing UI5 bootstrap
+        timeout: 200 // UI5 load timeout in ms, default is 100ms
       }
     }
   }
@@ -64,6 +65,10 @@ Run the tests with `Vitest` [CLI](https://vitest.dev/guide/cli.html):
 ```shell
 $ vitest
 ```
+
+## Don't be afraid
+
+`jsdom` is not a real browser, but gets the job done for unit testing. All major javascript frameworks use it today: `React`, `Vue`, `Svelte`, and even our old friend `jQuery`. It has over 20M weekly downloads in [NPM](https://www.npmjs.com/package/jsdom)!
 
 ## Author
 
