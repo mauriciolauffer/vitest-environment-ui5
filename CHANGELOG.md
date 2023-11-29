@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.1.0...v0.1.1) (2023-11-29)
+
+
+### Bug Fixes
+
+* jsdom v23.0.0 ([0899700](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/08997006591cd068c58151e3c9fa79bc3ca7a430))
+
 ## [0.1.0](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.0.1...v0.1.0) (2023-09-26)
 
 
