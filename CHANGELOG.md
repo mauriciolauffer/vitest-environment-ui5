@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.1.1...v0.2.0) (2024-01-01)
+
+
+### Features
+
+* Add support to UI5 v2 ([#10](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/10)) ([02c6bf8](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/02c6bf81c6fd61b617663f89c3472521fc48940b))
+
 ## [0.1.1](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.1.0...v0.1.1) (2023-11-29)
 
 
