@@ -5,7 +5,8 @@ export default defineConfig({
     environment: 'ui5',
     environmentOptions: {
       ui5: {
-        path: '../fixtures/ui5.html'
+        path: '../fixtures/ui5.html',
+        timeout: 1000
       }
     }
   }

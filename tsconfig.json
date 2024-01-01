@@ -17,7 +17,7 @@
     "rootDir": "src",
     "checkJs": true,
     "allowJs": true,
-    "types": ["node", "jsdom"],
+    "types": ["node", "jsdom", "openui5"],
   },
   "include": ["src", "types"],
   "exclude": ["node_modules", "test"]

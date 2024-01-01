@@ -23,7 +23,7 @@ function waitNextTick(): Promise<void> {
 /**
  * Catch jsdom window errors
  */
-function catchWindowErrors(window: DOMWindow) {
+function catchWindowErrors(window: DOMWindow): Function { // eslint-disable-line @typescript-eslint/ban-types
   let userErrorListenerCount = 0;
   /**
    * Throw UnhandlerError for window error events
@@ -109,15 +109,16 @@ function buildFromUrl(ui5: Ui5Options): Promise<JSDOM> {
 function ui5BootstrapListener(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
     const ui5Script = window.document.getElementById(UI5_BOOTSTRAP_ID);
-    if (!ui5Script) {
-      return reject(new Error(`Script tag ${UI5_BOOTSTRAP_ID} not found!`));
+    if (ui5Script) {
+      ui5Script.addEventListener('load', () => {
+        resolve();
+      });
+      ui5Script.addEventListener('error', () => {
+        reject(new Error(`Error loading ${UI5_BOOTSTRAP_ID}!`));
+      });
+    } else {
+      reject(new Error(`Script tag ${UI5_BOOTSTRAP_ID} not found!`));
     }
-    ui5Script.addEventListener('load', () => {
-      resolve();
-    });
-    ui5Script.addEventListener('error', () => {
-      reject(new Error(`Error loading ${UI5_BOOTSTRAP_ID}!`));
-    });
   });
 }
 
@@ -145,8 +146,9 @@ async function ui5CoreLibraryListener(window: DOMWindow, startTime: number): Pro
  */
 function ui5Ready(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (window?.sap?.ui?.getCore()) {
-      window.sap.ui.getCore().attachInit(resolve);
+    const core = window?.sap?.ui?.getCore();
+    if (core) {
+      core.ready ? core.ready(resolve) : core.attachInit(resolve);
     } else {
       reject(new Error('UI5 core not loaded!'));
     }
@@ -173,9 +175,11 @@ export default <Environment>({
   async setup(global, {ui5 = {}}) {
     UI5_TIMEOUT = ui5.timeout ?? UI5_TIMEOUT;
     const isUrl = isValidUrl(ui5.path);
-    const dom = isUrl ? await buildFromUrl(ui5) : await buildFromFile(ui5);
-    const clearWindowErrors = catchWindowErrors(dom.window);
+    let dom:JSDOM;
+    let clearWindowErrors:Function; // eslint-disable-line @typescript-eslint/ban-types
     try {
+      dom = isUrl ? await buildFromUrl(ui5) : await buildFromFile(ui5);
+      clearWindowErrors = catchWindowErrors(dom.window);
       await ui5BootstrapListener(dom.window);
       await ui5CoreLibraryListener(dom.window, performance.now());
       await ui5Ready(dom.window);
