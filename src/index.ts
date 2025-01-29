@@ -1,6 +1,6 @@
-import type {Environment} from 'vitest';
+import type {Environment} from 'vitest/environments';
 import type {DOMWindow, FileOptions} from 'jsdom';
-import type Ui5Options from '../types/globals';
+import type {Ui5Options} from '../types/globals';
 import {URL} from 'node:url';
 import {performance} from 'node:perf_hooks';
 import process from 'node:process';
@@ -23,7 +23,7 @@ function waitNextTick(): Promise<void> {
 /**
  * Catch jsdom window errors
  */
-function catchWindowErrors(window: DOMWindow): Function { // eslint-disable-line @typescript-eslint/ban-types
+function catchWindowErrors(window: DOMWindow): () => void {
   let userErrorListenerCount = 0;
   /**
    * Throw UnhandlerError for window error events
@@ -148,7 +148,7 @@ function ui5Ready(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
     const core = window?.sap?.ui?.getCore();
     if (core) {
-      core.ready ? core.ready(resolve) : core.attachInit(resolve);
+      core.ready ? core.ready(resolve) : core.attachInit(resolve); // eslint-disable-line @typescript-eslint/no-unused-expressions
     } else {
       reject(new Error('UI5 core not loaded!'));
     }
@@ -161,7 +161,7 @@ function ui5Ready(window: DOMWindow): Promise<void> {
 function isValidUrl(path: string): boolean {
   try {
     return !!new URL(path);
-  } catch (err) {
+  } catch (err) { // eslint-disable-line @typescript-eslint/no-unused-vars
     return false;
   }
 }
@@ -176,7 +176,7 @@ export default <Environment>({
     UI5_TIMEOUT = ui5.timeout ?? UI5_TIMEOUT;
     const isUrl = isValidUrl(ui5.path);
     let dom:JSDOM;
-    let clearWindowErrors:Function; // eslint-disable-line @typescript-eslint/ban-types
+    let clearWindowErrors: () => void;
     try {
       dom = isUrl ? await buildFromUrl(ui5) : await buildFromFile(ui5);
       clearWindowErrors = catchWindowErrors(dom.window);
@@ -201,7 +201,7 @@ export default <Environment>({
       teardown(global) {
         clearWindowErrors();
         dom.window.close();
-        keys.forEach((key) => delete global[key]);
+        keys.forEach((key) => delete global[key]); // eslint-disable-line @typescript-eslint/no-dynamic-delete
         originals.forEach((v, k) => global[k] = v);
       }
     };
