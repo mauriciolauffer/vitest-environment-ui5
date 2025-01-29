@@ -7,6 +7,7 @@
   "license": "MIT",
   "homepage": "https://github.com/mauriciolauffer/vitest-environment-ui5#readme",
   "type": "module",
+  "packageManager": "pnpm@9.15.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -53,5 +54,8 @@
   },
   "peerDependencies": {
     "vitest": ">=1"
+  },
+  "engines": {
+    "pnpm": ">=9"
   }
 }
