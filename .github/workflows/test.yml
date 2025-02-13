@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
-      - run: pnpm ci
+      - run: pnpm i --prefer-offline
       - run: pnpm run build
       - name: Install local vitest-environment-ui5 for testing
         working-directory: ./test/env-ui5
