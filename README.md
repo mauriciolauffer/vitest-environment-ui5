@@ -32,11 +32,11 @@ export default defineConfig({
     environment: "ui5",
     environmentOptions: {
       ui5: {
-        path: 'test/ui5-unit-test.html', // Path to the HTML file containing UI5 bootstrap
-        timeout: 200 // UI5 load timeout in ms, default is 100ms
-      }
-    }
-  }
+        path: "test/ui5-unit-test.html", // Path to the HTML file containing UI5 bootstrap
+        timeout: 200, // UI5 load timeout in ms, default is 100ms
+      },
+    },
+  },
 });
 ```
 
@@ -48,9 +48,9 @@ export default defineConfig({
  * @vitest-environment-options { "path": "test/ui5-unit-test.html" }
  */
 
-import {expect, test} from 'vitest';
+import { expect, test } from "vitest";
 
-test('UI5 is loaded', () => {
+test("UI5 is loaded", () => {
   expect(window.sap).toBeTruthy();
   expect(sap).toBeTruthy();
   expect(sap.ui.getCore()).toBeTruthy();
@@ -74,7 +74,7 @@ $ vitest
 
 Mauricio Lauffer
 
-* LinkedIn: [https://www.linkedin.com/in/mauriciolauffer](https://www.linkedin.com/in/mauriciolauffer)
+- LinkedIn: [https://www.linkedin.com/in/mauriciolauffer](https://www.linkedin.com/in/mauriciolauffer)
 
 ## License
 

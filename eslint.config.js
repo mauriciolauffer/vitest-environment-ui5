@@ -7,7 +7,7 @@ config.splice(2, 1); // Remove SonarJS
 
 export default tseslint.config(
   {
-    ignores: ["dist/", "examples/openui5-sample-app*", "**/coverage/"],
+    ignores: ["dist/", "test/env-ui5/", "**/coverage/"],
   },
   ...config,
   ...tseslint.configs.strict,
@@ -23,7 +23,7 @@ export default tseslint.config(
       globals: {
         ...globals.qunit,
         ...globals.browser,
-        "sap": "readonly"
+        sap: "readonly",
       },
     },
     ...vitest.configs.recommended,

@@ -2,7 +2,7 @@ name: test
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 permissions: read-all
@@ -10,21 +10,25 @@ permissions: read-all
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
     permissions:
       security-events: write
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: npm
-    - run: npm ci --ignore-scripts
-    - run: npm run build
-    - name: Install local vitest-environment-ui5 for testing
-      working-directory: ./test/env-ui5
-      run: npm i -D ../..
-    - run: npm run test:ci
-    - run: npm run lint:ci
-    - uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: eslint.sarif
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: pnpm ci
+      - run: pnpm run build
+      - name: Install local vitest-environment-ui5 for testing
+        working-directory: ./test/env-ui5
+        run: pnpm i -D ../..
+      - run: pnpm run test:ci
+      - run: pnpm run lint:ci
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: eslint.sarif

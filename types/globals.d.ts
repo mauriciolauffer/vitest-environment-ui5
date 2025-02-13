@@ -6,4 +6,4 @@ interface Ui5Options {
   timeout: number;
 }
 
-export {Ui5Options};
+export { Ui5Options };

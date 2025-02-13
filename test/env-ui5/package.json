@@ -2,7 +2,8 @@
   "name": "test-env-ui5",
   "private": true,
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest",
+    "test:ci": "vitest run",
     "coverage": "vitest run --coverage"
   },
   "devDependencies": {
