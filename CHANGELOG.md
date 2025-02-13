@@ -2,26 +2,22 @@
 
 ## [0.2.0](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.1.1...v0.2.0) (2024-01-01)
 
-
 ### Features
 
-* Add support to UI5 v2 ([#10](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/10)) ([02c6bf8](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/02c6bf81c6fd61b617663f89c3472521fc48940b))
+- Add support to UI5 v2 ([#10](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/10)) ([02c6bf8](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/02c6bf81c6fd61b617663f89c3472521fc48940b))
 
 ## [0.1.1](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.1.0...v0.1.1) (2023-11-29)
 
-
 ### Bug Fixes
 
-* jsdom v23.0.0 ([0899700](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/08997006591cd068c58151e3c9fa79bc3ca7a430))
+- jsdom v23.0.0 ([0899700](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/08997006591cd068c58151e3c9fa79bc3ca7a430))
 
 ## [0.1.0](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.0.1...v0.1.0) (2023-09-26)
 
-
 ### Features
 
-* Load from URL ([#2](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/2)) ([edb4bcb](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/edb4bcb3b1cc21b376357dffc0fe11fb713e90c0))
-
+- Load from URL ([#2](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/2)) ([edb4bcb](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/edb4bcb3b1cc21b376357dffc0fe11fb713e90c0))
 
 ### Bug Fixes
 
-* ci ([#3](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/3)) ([d74082b](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/d74082b8c5306c662128f5600fa8a6cac042efc0))
+- ci ([#3](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/3)) ([d74082b](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/d74082b8c5306c662128f5600fa8a6cac042efc0))

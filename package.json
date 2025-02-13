@@ -7,6 +7,7 @@
   "license": "MIT",
   "homepage": "https://github.com/mauriciolauffer/vitest-environment-ui5#readme",
   "type": "module",
+  "packageManager": "pnpm@9.15.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -25,10 +26,10 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "lint": "eslint src test --cache",
+    "lint": "eslint --cache && prettier --check --cache .",
     "lint:ci": "eslint src -f @microsoft/eslint-formatter-sarif -o eslint.sarif",
-    "test": "cd test/env-ui5 && vitest",
-    "test:ci": "cd test/env-ui5 && vitest run"
+    "test": "pnpm --prefix test/env-ui5 test",
+    "test:ci": "pnpm --prefix test/env-ui5 test:ci"
   },
   "repository": {
     "type": "git",
@@ -38,21 +39,24 @@
     "url": "https://github.com/mauriciolauffer/vitest-environment-ui5/issues"
   },
   "dependencies": {
-    "jsdom": "^23.0.1"
+    "jsdom": "^26.0.0"
   },
   "devDependencies": {
-    "@types/jsdom": "^21.1.6",
-    "@types/node": "^20.10.6",
-    "@types/openui5": "^1.120.1",
-    "@typescript-eslint/eslint-plugin": "^6.16.0",
-    "@typescript-eslint/parser": "^6.16.0",
-    "@vitest/coverage-v8": "^1.1.1",
-    "eslint": "^8.56.0",
-    "eslint-config-mlauffer-nodejs": "^1.4.6",
-    "eslint-plugin-vitest": "^0.3.20"
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.13.2",
+    "@types/openui5": "^1.132.0",
+    "@vitest/coverage-v8": "^3.0.5",
+    "eslint": "^9.20.1",
+    "eslint-config-mlauffer-nodejs": "^3.0.1",
+    "eslint-plugin-vitest": "^0.5.4",
+    "prettier": "^3.5.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0"
   },
   "peerDependencies": {
-    "typescript": "^5",
-    "vitest": "^1"
+    "vitest": ">=1"
+  },
+  "engines": {
+    "pnpm": ">=9"
   }
 }

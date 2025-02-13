@@ -1,0 +1,16 @@
+name: NPM Package Publish with PNPM
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  publish:
+    permissions:
+      id-token: write
+    uses: mauriciolauffer/.github/.github/workflows/pnpm-publish.yml@main
+    secrets:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_SECRET }}

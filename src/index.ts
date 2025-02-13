@@ -1,14 +1,14 @@
-import type {Environment} from 'vitest';
-import type {DOMWindow, FileOptions} from 'jsdom';
-import type Ui5Options from '../types/globals';
-import {URL} from 'node:url';
-import {performance} from 'node:perf_hooks';
-import process from 'node:process';
-import {JSDOM} from 'jsdom';
-import {populateGlobal} from 'vitest/environments';
-import {getSafeTimers} from 'vitest/utils';
+import type { Environment } from "vitest/environments";
+import type { DOMWindow, FileOptions } from "jsdom";
+import type { Ui5Options } from "../types/globals.js";
+import { URL } from "node:url";
+import { performance } from "node:perf_hooks";
+import process from "node:process";
+import { JSDOM } from "jsdom";
+import { populateGlobal } from "vitest/environments";
+import { getSafeTimers } from "vitest/utils";
 
-const UI5_BOOTSTRAP_ID = 'sap-ui-bootstrap'; // UI5 script tag ID
+const UI5_BOOTSTRAP_ID = "sap-ui-bootstrap"; // UI5 script tag ID
 let UI5_TIMEOUT = 100; // UI5 load timeout in ms
 
 /**
@@ -23,33 +23,37 @@ function waitNextTick(): Promise<void> {
 /**
  * Catch jsdom window errors
  */
-function catchWindowErrors(window: DOMWindow): Function { // eslint-disable-line @typescript-eslint/ban-types
+function catchWindowErrors(window: DOMWindow): () => void {
   let userErrorListenerCount = 0;
   /**
    * Throw UnhandlerError for window error events
    */
   function throwUnhandlerError(e: ErrorEvent) {
     if (userErrorListenerCount === 0 && e.error != null) {
-      process.emit('uncaughtException', e.error);
+      process.emit("uncaughtException", e.error);
     }
   }
   const addEventListener = window.addEventListener.bind(window);
   const removeEventListener = window.removeEventListener.bind(window);
-  window.addEventListener('error', throwUnhandlerError);
-  window.addEventListener = function(...args: Parameters<typeof addEventListener>) {
-    if (args[0] === 'error') {
+  window.addEventListener("error", throwUnhandlerError);
+  window.addEventListener = function (
+    ...args: Parameters<typeof addEventListener>
+  ) {
+    if (args[0] === "error") {
       userErrorListenerCount++;
     }
     return addEventListener.apply(this, args);
   };
-  window.removeEventListener = function(...args: Parameters<typeof removeEventListener>) {
-    if (args[0] === 'error' && userErrorListenerCount) {
+  window.removeEventListener = function (
+    ...args: Parameters<typeof removeEventListener>
+  ) {
+    if (args[0] === "error" && userErrorListenerCount) {
       userErrorListenerCount--;
     }
     return removeEventListener.apply(this, args);
   };
   return function clearErrorHandlers() {
-    window.removeEventListener('error', throwUnhandlerError);
+    window.removeEventListener("error", throwUnhandlerError);
   };
 }
 
@@ -58,33 +62,24 @@ function catchWindowErrors(window: DOMWindow): Function { // eslint-disable-line
  */
 function getConfiguration(): FileOptions {
   return {
-    resources: 'usable',
-    runScripts: 'dangerously',
+    resources: "usable",
+    runScripts: "dangerously",
     pretendToBeVisual: true,
     beforeParse: (jsdomWindow) => {
       // Patch window.matchMedia because it doesn't exist in JSDOM
-      Object.defineProperty(jsdomWindow, 'matchMedia', {
+      Object.defineProperty(jsdomWindow, "matchMedia", {
         writable: true,
         configurable: true,
         value: (query: string) => ({
           matches: false,
           media: query,
           onchange: null,
-          addEventListener: () => { },
-          removeEventListener: () => { },
-          dispatchEvent: () => { }
-        })
+          addEventListener: () => {},
+          removeEventListener: () => {},
+          dispatchEvent: () => {},
+        }),
       });
-      // Patch window.performance.timing because it doesn't exist in nodejs nor JSDOM
-      Object.defineProperty(jsdomWindow.performance, 'timing', {
-        writable: true,
-        configurable: true,
-        value: {
-          fetchStart: Date.now(),
-          navigationStart: Date.now()
-        }
-      });
-    }
+    },
   };
 }
 
@@ -92,7 +87,10 @@ function getConfiguration(): FileOptions {
  * Build JSDOM from a local HTML file
  */
 function buildFromFile(ui5: Ui5Options): Promise<JSDOM> {
-  const options: FileOptions = {...getConfiguration(), referrer: 'https://ui5.sap.com/'};
+  const options: FileOptions = {
+    ...getConfiguration(),
+    referrer: "https://ui5.sap.com/",
+  };
   return JSDOM.fromFile(ui5.path, options);
 }
 
@@ -110,10 +108,10 @@ function ui5BootstrapListener(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
     const ui5Script = window.document.getElementById(UI5_BOOTSTRAP_ID);
     if (ui5Script) {
-      ui5Script.addEventListener('load', () => {
+      ui5Script.addEventListener("load", () => {
         resolve();
       });
-      ui5Script.addEventListener('error', () => {
+      ui5Script.addEventListener("error", () => {
         reject(new Error(`Error loading ${UI5_BOOTSTRAP_ID}!`));
       });
     } else {
@@ -125,7 +123,10 @@ function ui5BootstrapListener(window: DOMWindow): Promise<void> {
 /**
  * Add load and error events to UI5 bootstrap script tag to handle its status
  */
-async function ui5CoreLibraryListener(window: DOMWindow, startTime: number): Promise<void> {
+async function ui5CoreLibraryListener(
+  window: DOMWindow,
+  startTime: number,
+): Promise<void> {
   await waitNextTick();
   return new Promise((resolve, reject) => {
     const elapsedTime = performance.now() - startTime;
@@ -134,9 +135,7 @@ async function ui5CoreLibraryListener(window: DOMWindow, startTime: number): Pro
     } else if (window.sap?.ui?.getCore()) {
       resolve();
     } else {
-      ui5CoreLibraryListener(window, startTime)
-          .then(resolve)
-          .catch(reject);
+      ui5CoreLibraryListener(window, startTime).then(resolve).catch(reject);
     }
   });
 }
@@ -148,9 +147,9 @@ function ui5Ready(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
     const core = window?.sap?.ui?.getCore();
     if (core) {
-      core.ready ? core.ready(resolve) : core.attachInit(resolve);
+      core.ready ? core.ready(resolve) : core.attachInit(resolve); // eslint-disable-line @typescript-eslint/no-unused-expressions
     } else {
-      reject(new Error('UI5 core not loaded!'));
+      reject(new Error("UI5 core not loaded!"));
     }
   });
 }
@@ -161,6 +160,7 @@ function ui5Ready(window: DOMWindow): Promise<void> {
 function isValidUrl(path: string): boolean {
   try {
     return !!new URL(path);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (err) {
     return false;
   }
@@ -169,14 +169,14 @@ function isValidUrl(path: string): boolean {
 /**
  * Vitest environment for UI5
  */
-export default <Environment>({
-  name: 'ui5',
-  transformMode: 'web',
-  async setup(global, {ui5 = {}}) {
+export default <Environment>{
+  name: "ui5",
+  transformMode: "web",
+  async setup(global, { ui5 = {} }) {
     UI5_TIMEOUT = ui5.timeout ?? UI5_TIMEOUT;
     const isUrl = isValidUrl(ui5.path);
-    let dom:JSDOM;
-    let clearWindowErrors:Function; // eslint-disable-line @typescript-eslint/ban-types
+    let dom: JSDOM;
+    let clearWindowErrors: () => void;
     try {
       dom = isUrl ? await buildFromUrl(ui5) : await buildFromFile(ui5);
       clearWindowErrors = catchWindowErrors(dom.window);
@@ -190,20 +190,22 @@ export default <Environment>({
     const hrefFile = dom.window.location.href;
     if (!isUrl) {
       // Workaround to avoid > SecurityError: localStorage is not available for opaque origins
-      dom.reconfigure({url: 'http://localhost/'});
+      dom.reconfigure({ url: "http://localhost/" });
     }
-    const {keys, originals} = populateGlobal(global, dom.window, {bindFunctions: true});
+    const { keys, originals } = populateGlobal(global, dom.window, {
+      bindFunctions: true,
+    });
     if (!isUrl) {
       // Comeback to original settings
-      dom.reconfigure({url: hrefFile});
+      dom.reconfigure({ url: hrefFile });
     }
     return {
       teardown(global) {
         clearWindowErrors();
         dom.window.close();
-        keys.forEach((key) => delete global[key]);
-        originals.forEach((v, k) => global[k] = v);
-      }
+        keys.forEach((key) => delete global[key]); // eslint-disable-line @typescript-eslint/no-dynamic-delete
+        originals.forEach((v, k) => (global[k] = v));
+      },
     };
-  }
-});
+  },
+};
