@@ -1,4 +1,3 @@
-import globals from "globals";
 import config from "eslint-config-mlauffer-nodejs";
 import tseslint from "typescript-eslint";
 import vitest from "eslint-plugin-vitest";
@@ -19,13 +18,6 @@ export default tseslint.config(
   },
   {
     files: ["test/**"],
-    languageOptions: {
-      globals: {
-        ...globals.qunit,
-        ...globals.browser,
-        sap: "readonly",
-      },
-    },
     ...vitest.configs.recommended,
   },
 );
