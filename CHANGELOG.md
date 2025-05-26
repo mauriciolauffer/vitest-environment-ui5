@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.1...v0.2.2) (2025-05-26)
+
+
+### Bug Fixes
+
+* Bump deps + linting ([941eb36](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/941eb367ca2dd7895da64383b804c996440be987))
+
 ## [0.2.1](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.0...v0.2.1) (2025-02-13)
 
 ### Bug Fixes
