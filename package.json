@@ -29,7 +29,8 @@
     "lint": "eslint --cache && prettier --check --cache .",
     "lint:ci": "eslint src -f @microsoft/eslint-formatter-sarif -o eslint.sarif",
     "test": "pnpm --prefix test/env-ui5 test",
-    "test:ci": "pnpm --prefix test/env-ui5 test:ci"
+    "test:ci": "pnpm --prefix test/env-ui5 test:ci",
+    "pretty": "prettier --write --cache ."
   },
   "repository": {
     "type": "git",
@@ -39,19 +40,19 @@
     "url": "https://github.com/mauriciolauffer/vitest-environment-ui5/issues"
   },
   "dependencies": {
-    "jsdom": "^26.0.0"
+    "jsdom": "^26.1.0"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^22.13.2",
-    "@types/openui5": "^1.132.0",
-    "@vitest/coverage-v8": "^3.0.5",
-    "eslint": "^9.20.1",
-    "eslint-config-mlauffer-nodejs": "^3.0.1",
+    "@types/node": "^22.15.21",
+    "@types/openui5": "^1.136.0",
+    "@vitest/coverage-v8": "^3.1.4",
+    "eslint": "^9.27.0",
+    "eslint-config-mlauffer-nodejs": "^3.1.0",
     "eslint-plugin-vitest": "^0.5.4",
-    "prettier": "^3.5.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.24.0"
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   },
   "peerDependencies": {
     "vitest": ">=1"

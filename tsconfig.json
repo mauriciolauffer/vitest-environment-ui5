@@ -11,9 +11,7 @@
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "rootDir": "src"
+    "skipLibCheck": true
   },
   "include": ["src", "types"],
   "exclude": ["node_modules", "test"]

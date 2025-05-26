@@ -160,8 +160,9 @@ function ui5Ready(window: DOMWindow): Promise<void> {
 function isValidUrl(path: string): boolean {
   try {
     return !!new URL(path);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (err) {
+  } catch (err: unknown | Error) {
+    // eslint-disable-next-line no-console
+    console.error("Invalid URL:", path, ". Error:", (err as Error)?.message);
     return false;
   }
 }
