@@ -11,7 +11,8 @@
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "erasableSyntaxOnly": true
   },
   "include": ["src", "types"],
   "exclude": ["node_modules", "test"]
