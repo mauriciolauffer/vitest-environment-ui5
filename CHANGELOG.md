@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.2...v0.2.3) (2025-07-07)
+
+
+### Bug Fixes
+
+* environment-options path is required ([#18](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/18)) ([d29fa29](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/d29fa29e8ff0c6fb69a3542df669af4a58e41c46))
+
 ## [0.2.2](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.1...v0.2.2) (2025-05-26)
 
 
