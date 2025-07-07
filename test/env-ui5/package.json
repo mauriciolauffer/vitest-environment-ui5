@@ -7,6 +7,6 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "vitest-environment-ui5": "link:..\\.."
+    "vitest-environment-ui5": "link:../.."
   }
 }

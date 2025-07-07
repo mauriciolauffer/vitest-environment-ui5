@@ -9,5 +9,5 @@ importers:
   .:
     dependencies:
       vitest-environment-ui5:
-        specifier: link:..\..
+        specifier: link:../..
         version: link:../..
