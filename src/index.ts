@@ -180,7 +180,7 @@ function isValidUrl(path: string): boolean {
 /**
  * Vitest environment for UI5
  */
-export default <Environment>{
+export default {
   name: "ui5",
   transformMode: "web",
   async setup(global, { ui5 = {} }) {
@@ -224,4 +224,4 @@ export default <Environment>{
       },
     };
   },
-};
+} as Environment;
