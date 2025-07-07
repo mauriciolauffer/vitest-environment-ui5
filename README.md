@@ -70,6 +70,8 @@ $ vitest
 
 `jsdom` is not a real browser, but gets the job done for unit testing. All major javascript frameworks use it today: `React`, `Vue`, `Svelte`, and even our old friend `jQuery`. It has over 20M weekly downloads in [NPM](https://www.npmjs.com/package/jsdom)!
 
+This package simplifies what was introduced in the blog post [Modern JavaScript testing frameworks with Fiori/UI5 – Vitest](https://community.sap.com/t5/technology-blog-posts-by-members/modern-javascript-testing-frameworks-with-fiori-ui5-vitest/ba-p/13573097)
+
 ## Author
 
 Mauricio Lauffer
