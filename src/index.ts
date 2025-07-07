@@ -6,7 +6,7 @@ import { performance } from "node:perf_hooks";
 import process from "node:process";
 import { JSDOM } from "jsdom";
 import { populateGlobal } from "vitest/environments";
-import { getSafeTimers } from "vitest/utils";
+import { getSafeTimers } from "@vitest/utils";
 
 const UI5_BOOTSTRAP_ID = "sap-ui-bootstrap"; // UI5 script tag ID
 let UI5_TIMEOUT = 100; // UI5 load timeout in ms
@@ -66,6 +66,16 @@ function getConfiguration(): FileOptions {
     runScripts: "dangerously",
     pretendToBeVisual: true,
     beforeParse: (jsdomWindow) => {
+      // @ts-expect-error: Add performance.timing for old UI5 versions
+      jsdomWindow.performance.timing = {
+        fetchStart: Date.now(),
+        navigationStart: Date.now(),
+      };
+
+      /* userAgent: window.navigator.userAgent,
+			userAgentData: window.navigator.userAgentData,
+			platform: window.navigator.platform */
+
       // Patch window.matchMedia because it doesn't exist in JSDOM
       Object.defineProperty(jsdomWindow, "matchMedia", {
         writable: true,
@@ -132,7 +142,7 @@ async function ui5CoreLibraryListener(
     const elapsedTime = performance.now() - startTime;
     if (elapsedTime > UI5_TIMEOUT) {
       reject(new Error(`UI5 load timeout: ${UI5_TIMEOUT}ms!`));
-    } else if (window.sap?.ui?.getCore()) {
+    } else if (window.sap?.ui?.getCore?.()) {
       resolve();
     } else {
       ui5CoreLibraryListener(window, startTime).then(resolve).catch(reject);
@@ -179,6 +189,11 @@ export default <Environment>{
     let dom: JSDOM;
     let clearWindowErrors: () => void;
     try {
+      if (!ui5?.path) {
+        throw new Error(
+          "The path to the HTML file/page containing the UI5 bootstrap setup must be set!",
+        );
+      }
       dom = isUrl ? await buildFromUrl(ui5) : await buildFromFile(ui5);
       clearWindowErrors = catchWindowErrors(dom.window);
       await ui5BootstrapListener(dom.window);
