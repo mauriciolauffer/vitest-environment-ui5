@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.3...v0.3.0) (2025-07-11)
+
+
+### Features
+
+* Support UI5 legacy free ([#21](https://github.com/mauriciolauffer/vitest-environment-ui5/issues/21)) ([35b7dbf](https://github.com/mauriciolauffer/vitest-environment-ui5/commit/35b7dbf5a53d42eee1b5d55a394ffb6fc0c6fb56))
+
 ## [0.2.3](https://github.com/mauriciolauffer/vitest-environment-ui5/compare/v0.2.2...v0.2.3) (2025-07-07)
 
 
