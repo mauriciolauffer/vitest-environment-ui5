@@ -1,10 +1,12 @@
 import type { Environment } from "vitest/environments";
 import type { DOMWindow, FileOptions } from "jsdom";
+import type Core from "sap/ui/core/Core";
 import type { Ui5Options } from "../types/globals.js";
 import { URL } from "node:url";
 import { performance } from "node:perf_hooks";
 import process from "node:process";
-import { JSDOM } from "jsdom";
+import { MessageChannel } from "node:worker_threads";
+import { JSDOM, VirtualConsole } from "jsdom";
 import { populateGlobal } from "vitest/environments";
 import { getSafeTimers } from "@vitest/utils";
 
@@ -61,16 +63,21 @@ function catchWindowErrors(window: DOMWindow): () => void {
  * Get jsdom configuration to build JSDOM from HTML file containing UI5 bootstrap configuration
  */
 function getConfiguration(): FileOptions {
+  const vConsole = new VirtualConsole();
+  vConsole.sendTo(console);
   return {
     resources: "usable",
     runScripts: "dangerously",
     pretendToBeVisual: true,
+    virtualConsole: vConsole,
     beforeParse: (jsdomWindow) => {
       // @ts-expect-error: Add performance.timing for old UI5 versions
       jsdomWindow.performance.timing = {
         fetchStart: Date.now(),
         navigationStart: Date.now(),
       };
+
+      jsdomWindow.MessageChannel = MessageChannel;
 
       /* userAgent: window.navigator.userAgent,
 			userAgentData: window.navigator.userAgentData,
@@ -142,8 +149,8 @@ async function ui5CoreLibraryListener(
     const elapsedTime = performance.now() - startTime;
     if (elapsedTime > UI5_TIMEOUT) {
       reject(new Error(`UI5 load timeout: ${UI5_TIMEOUT}ms!`));
-    } else if (window.sap?.ui?.getCore?.()) {
-      resolve();
+    } else if (window.sap?.ui?.require) {
+      window.sap?.ui?.require(["sap/ui/core/Core"], resolve);
     } else {
       ui5CoreLibraryListener(window, startTime).then(resolve).catch(reject);
     }
@@ -155,12 +162,13 @@ async function ui5CoreLibraryListener(
  */
 function ui5Ready(window: DOMWindow): Promise<void> {
   return new Promise((resolve, reject) => {
-    const core = window?.sap?.ui?.getCore();
-    if (core) {
-      core.ready ? core.ready(resolve) : core.attachInit(resolve); // eslint-disable-line @typescript-eslint/no-unused-expressions
-    } else {
-      reject(new Error("UI5 core not loaded!"));
-    }
+    window.sap?.ui?.require(["sap/ui/core/Core"], (Core: Core) => {
+      if (Core) {
+        Core.ready ? Core.ready(resolve) : Core.attachInit(resolve); // eslint-disable-line @typescript-eslint/no-unused-expressions
+      } else {
+        reject(new Error("UI5 core not loaded!"));
+      }
+    });
   });
 }
 
